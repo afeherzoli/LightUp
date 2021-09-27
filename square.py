@@ -7,6 +7,7 @@ class Square(Enum):
     LIGHT = auto()
     LIT = auto()
     NOLIGHT = auto()
+    LITNOLIGHT = auto()
     ZERO = auto()
     ONE = auto()
     TWO = auto()
