@@ -8,6 +8,67 @@ SIZE = 7
 
 class Gui():
 
+    __symbols = {
+        Sqr.EMPTY : '',
+        Sqr.BLOCK : ' ',
+        Sqr.LIGHT : 'O',
+        Sqr.BADLIGHT : '@',
+        Sqr.LIT : ' ',
+        Sqr.NOLIGHT : 'x',
+        Sqr.LITNOLIGHT : 'x',
+        Sqr.ZERO : '0',
+        Sqr.BADZERO : '0',
+        Sqr.ONE : '1',
+        Sqr.BADONE : '1',
+        Sqr.TWO : '2',
+        Sqr.BADTWO : '2',
+        Sqr.THREE : '3',
+        Sqr.BADTHREE : '3',
+        Sqr.FOUR : '4',
+        Sqr.BADFOUR : '4',
+    }
+
+    __bgColors = {
+        Sqr.EMPTY : 'white',
+        Sqr.BLOCK : 'black',
+        Sqr.LIGHT : 'yellow',
+        Sqr.BADLIGHT : 'yellow',
+        Sqr.LIT : 'yellow',
+        Sqr.NOLIGHT : 'white',
+        Sqr.LITNOLIGHT : 'yellow',
+        Sqr.ZERO : 'gray',
+        Sqr.BADZERO : 'gray',
+        Sqr.ONE : 'gray',
+        Sqr.BADONE : 'gray',
+        Sqr.TWO : 'gray',
+        Sqr.BADTWO : 'gray',
+        Sqr.THREE : 'gray',
+        Sqr.BADTHREE : 'gray',
+        Sqr.FOUR : 'gray',
+        Sqr.BADFOUR : 'gray',
+    }
+
+    __fgColors = {
+        Sqr.EMPTY : 'white',
+        Sqr.BLOCK : 'black',
+        Sqr.LIGHT : 'black',
+        Sqr.BADLIGHT : 'red',
+        Sqr.LIT : 'yellow',
+        Sqr.NOLIGHT : 'black',
+        Sqr.LITNOLIGHT : 'black',
+        Sqr.ZERO : 'black',
+        Sqr.BADZERO : 'red',
+        Sqr.ONE : 'black',
+        Sqr.BADONE : 'red',
+        Sqr.TWO : 'black',
+        Sqr.BADTWO : 'red',
+        Sqr.THREE : 'black',
+        Sqr.BADTHREE : 'red',
+        Sqr.FOUR : 'black',
+        Sqr.BADFOUR : 'red',
+    }
+
+
     def __init__(self) -> None:
         self.game = Game()
         self.root = Tk()
@@ -49,53 +110,11 @@ class Gui():
 
 
     def __symbolAt(self, rows, columns):
-        if self.game.grid[rows][columns] == Sqr.EMPTY:
-            return ''
-        elif self.game.grid[rows][columns] == Sqr.BLOCK:
-            return ' '
-        elif self.game.grid[rows][columns] == Sqr.FOUR:
-            return '4'
-        elif self.game.grid[rows][columns] == Sqr.THREE:
-            return '3'
-        elif self.game.grid[rows][columns] == Sqr.TWO:
-            return '2'
-        elif self.game.grid[rows][columns] == Sqr.ONE:
-            return '1'
-        elif self.game.grid[rows][columns] == Sqr.ZERO:
-            return '0'
-        elif self.game.grid[rows][columns] == Sqr.LIGHT:
-            return 'O'
-        elif self.game.grid[rows][columns] == Sqr.LIT:
-            return ' '
-        elif self.game.grid[rows][columns] == Sqr.NOLIGHT:
-            return 'x'
-        elif self.game.grid[rows][columns] == Sqr.LITNOLIGHT:
-            return 'x'
+        return self.__symbols[self.game.grid[rows][columns]]
 
 
     def __bgAt(self, rows, columns):
-        if self.game.grid[rows][columns] == Sqr.EMPTY:
-            return 'white'
-        elif self.game.grid[rows][columns] == Sqr.BLOCK:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.FOUR:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.THREE:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.TWO:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.ONE:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.ZERO:
-            return 'gray'
-        elif self.game.grid[rows][columns] == Sqr.LIGHT:
-            return 'yellow'
-        elif self.game.grid[rows][columns] == Sqr.LIT:
-            return 'yellow'
-        elif self.game.grid[rows][columns] == Sqr.NOLIGHT:
-            return 'white'
-        elif self.game.grid[rows][columns] == Sqr.LITNOLIGHT:
-            return 'yellow'
+        return self.__bgColors[self.game.grid[rows][columns]]
 
 
     def button_click(self, btn, rows, columns):
