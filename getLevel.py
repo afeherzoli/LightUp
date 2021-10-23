@@ -2,10 +2,7 @@
 from square import Square as Sqr
 import xml.etree.ElementTree as ET
 
-def getLevel(id):
-    if id == None:
-        id = 20
-    
+def getLevel(id):    
     codeToSqr = {
         'B' : Sqr.BLOCK,
         '0' : Sqr.ZERO,
@@ -14,14 +11,14 @@ def getLevel(id):
         '3' : Sqr.THREE,
         '4' : Sqr.FOUR}
 
-    tree = ET.parse('levels.xml')
+    tree = ET.parse('data/levels.xml')
     root = tree.getroot()
     myLevel = [[''] * 7 for i in range(7)]
     preLevel = []
 
     lvl = root.find(f'./level[@id="{id}"]')
 
-    print(f"level id:{id}")
+    print(f"loading level with id:{id}")
 
     for c in lvl.text:
         if c in ['B', '0', '1', '2', '3', '4']:
@@ -32,7 +29,7 @@ def getLevel(id):
     for row in range(7):
         for col in range(7):
             myLevel[row][col] = preLevel[row*7 + col]
-            pass
+
     return myLevel
 
 

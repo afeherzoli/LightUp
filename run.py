@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from game import Game
 from gui import Gui
-from breadth import BreadthFirstSearch
-from depth import DepthFirstSearch
+from searches.breadth import BreadthFirstSearch
+from searches.depth import DepthFirstSearch
 from datetime import datetime
 
 def main():

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from square import Square as Sqr
-from levels import getLevel
+from getLevel import getLevel
 import logging, sys
-
 
 
 class Game:

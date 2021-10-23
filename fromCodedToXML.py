@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 def xmlToBoard():
-    writeFile = open("levels.xml", "w")
-    readFile = open("saves/coded.txt", "r")
+    writeFile = open("./data/levels.xml", "w")
+    readFile = open("./data/coded", "r")
 
     writeFile.write('<?xml version="1.0"?>\n')
     writeFile.write("<levels>\n")
