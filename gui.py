@@ -133,9 +133,9 @@ class Gui():
 
 
 def main():
-    game = Game()
+    game = Game(20)
     gui = Gui(game)
-    gui.mainloop()
+    gui.start()
         
 
 ###################################################

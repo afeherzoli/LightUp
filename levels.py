@@ -1,37 +1,38 @@
 #!/usr/bin/env python3
 from square import Square as Sqr
-import random
 import xml.etree.ElementTree as ET
 
-def getLevel(num = random.randint(0, 4)):
-    textToSqr = {
-        'Sqr.EMPTY' : Sqr.EMPTY,
-        'Sqr.BLOCK' : Sqr.BLOCK,
-        'Sqr.LIGHT' : Sqr.LIGHT,
-        'Sqr.BADLIGHT' : Sqr.BADLIGHT,
-        'Sqr.LIT' : Sqr.LIT,
-        'Sqr.NOLIGHT' : Sqr.NOLIGHT,
-        'Sqr.LITNOLIGHT' : Sqr.LITNOLIGHT,
-        'Sqr.ZERO' : Sqr.ZERO,
-        'Sqr.BADZERO' : Sqr.BADZERO,
-        'Sqr.ONE' : Sqr.ONE,
-        'Sqr.BADONE' : Sqr.BADONE,
-        'Sqr.TWO' : Sqr.TWO,
-        'Sqr.BADTWO' : Sqr.BADTWO,
-        'Sqr.THREE' : Sqr.THREE,
-        'Sqr.BADTHREE' : Sqr.BADTHREE,
-        'Sqr.FOUR' : Sqr.FOUR,
-        'Sqr.BADFOUR' : Sqr.BADFOUR}
+def getLevel(id):
+    if id == None:
+        id = 20
+    
+    codeToSqr = {
+        'B' : Sqr.BLOCK,
+        '0' : Sqr.ZERO,
+        '1' : Sqr.ONE,
+        '2' : Sqr.TWO,
+        '3' : Sqr.THREE,
+        '4' : Sqr.FOUR}
 
     tree = ET.parse('levels.xml')
     root = tree.getroot()
     myLevel = [[''] * 7 for i in range(7)]
+    preLevel = []
 
-    lvl = root.find('./level[@diff="60"]')
+    lvl = root.find(f'./level[@id="{id}"]')
+
+    print(f"level id:{id}")
+
+    for c in lvl.text:
+        if c in ['B', '0', '1', '2', '3', '4']:
+            preLevel.append(codeToSqr[c])
+        elif ord(c) in range(ord('a'), ord('z')+1):
+            preLevel += ([Sqr.EMPTY] * (ord(c)-ord('a')+1) )
 
     for row in range(7):
         for col in range(7):
-            myLevel[row][col] = textToSqr[root[num][row][col].text]
+            myLevel[row][col] = preLevel[row*7 + col]
+            pass
     return myLevel
 
 

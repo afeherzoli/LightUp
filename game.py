@@ -8,8 +8,8 @@ import logging, sys
 class Game:
     logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
-    def __init__(self,):
-        self.board = getLevel(num=2)
+    def __init__(self, lvlId):
+        self.board = getLevel(id= str(lvlId))
 
     def __hash__(self):
         return hash(str(self.board))

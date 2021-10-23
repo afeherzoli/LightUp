@@ -6,13 +6,13 @@ from depth import DepthFirstSearch
 from datetime import datetime
 
 def main():
-    game = Game()
-    #bfs = BreadthFirstSearch()
-    dfs = DepthFirstSearch()
+    game = Game(20)
+    bfs = BreadthFirstSearch()
+    #dfs = DepthFirstSearch()
     print("Started at:", datetime.now().strftime("%H:%M:%S"))
-    solved = dfs.search(game)
+    solved = bfs.search(game)
     print("Finnished at:", datetime.now().strftime("%H:%M:%S"))
-    print("Visited positions:", len(dfs.visited))
+    print("Visited positions:", len(bfs.visited))
     gui = Gui(solved)
     gui.start()
 
