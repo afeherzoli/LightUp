@@ -24,7 +24,7 @@ def getLevel(id):
         if c in ['B', '0', '1', '2', '3', '4']:
             preLevel.append(codeToSqr[c])
         elif ord(c) in range(ord('a'), ord('z')+1):
-            preLevel += ([Sqr.EMPTY] * (ord(c)-ord('a')+1) )
+            preLevel += ([Sqr.EMPTY] * (ord(c)-ord('a')+1))
 
     for row in range(7):
         for col in range(7):

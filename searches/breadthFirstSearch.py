@@ -4,24 +4,21 @@ from game import Game
 from copy import deepcopy
            
 
-class BreadthFirstSearch():
-    
-    visited = set() # List to keep track of visited nodes.
-    que = []     #Initialize a queue
+class BreadthFirstSearch():    
+    visited = set()
+    queue = []
 
     def search(self, game) -> Game:
+        self.queue.append(game)
 
-        self.visited.add(game)
-        self.que.extend(self.successors(game))
-
-        while self.que:
-            s = self.que.pop(0)
-            if s not in self.visited:
-                self.visited.add(s)
-                if s.isGameWon():
-                    return s
-                if s.isWinable():
-                    self.que.extend(self.successors(s))
+        while self.queue:
+            current = self.queue.pop(0)
+            if current not in self.visited:
+                self.visited.add(current)
+                if current.isGameWon():
+                    return current
+                if current.isBoardStateLegit():
+                    self.queue.extend(self.successors(current))
         return game
         
     

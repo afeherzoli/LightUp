@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
 from game import Game
 from gui import Gui
-from searches.breadth import BreadthFirstSearch
-from searches.depth import DepthFirstSearch
+from searches.depthFirstSearch import DepthFirstSearch
+from searches.depthLimitedSearch import DepthLimitedSearch
+from searches.iterativeDeepeningDepthFirstSearch import IterativeDeepeningDepthFirstSearch
 from datetime import datetime
 
 def main():
-    game = Game(20)
-    bfs = BreadthFirstSearch()
-    #dfs = DepthFirstSearch()
+    game = Game(59)
+    """ dfs = DepthFirstSearch()
     print("Started at:", datetime.now().strftime("%H:%M:%S"))
-    solved = bfs.search(game)
+    solved = dfs.search(game)
     print("Finnished at:", datetime.now().strftime("%H:%M:%S"))
-    print("Visited positions:", len(bfs.visited))
+    print("Visited positions:", len(dfs.visited))
+    gui = Gui(solved)
+    gui.start() """
+
+    srch = DepthFirstSearch()
+    print("Started at:", datetime.now().strftime("%H:%M:%S"))
+    solved = srch.search(game)
+    print("Finnished at:", datetime.now().strftime("%H:%M:%S"))
+    print("Visited positions:", len(srch.visited))
+
     gui = Gui(solved)
     gui.start()
 

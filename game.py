@@ -280,7 +280,7 @@ class Game:
                     return False
         return True
 
-    def isWinable(self):
+    def isBoardStateLegit(self):
         for rows in range(7):
             for columns in range(7):
                 if self.board[rows][columns] in [
