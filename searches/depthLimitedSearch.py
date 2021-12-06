@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+from copy import deepcopy
 from square import Square as Sqr
 from game import Game
 from gui import Gui
-from copy import deepcopy
-import time
+
            
 
 class DepthLimitedSearch():

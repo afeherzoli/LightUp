@@ -1,0 +1,23 @@
+greedy
+easy avg time: 32.5576724
+easy avg space: 485.1
+medium avg time: 75.16620725
+medium avg space: 1185.25
+hard avg time: 90.146164
+hard avg space: 1126.7
+
+depth
+easy avg time: 505.63703620000007
+easy avg space: 36490.4
+medium avg time: 151.300797
+medium avg space: 14704.65
+hard avg time: 245.91084765
+hard avg space: 21110.25
+
+breadth
+easy avg time: 894.96819515
+easy avg space: 69340.55
+medium avg time: 1935.17536935
+medium avg space: 141662.9
+hard avg time: 1418.0626737500002
+hard avg space: 100923.9

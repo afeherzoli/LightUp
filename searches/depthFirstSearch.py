@@ -1,25 +1,27 @@
-#!/usr/bin/env python3
+from copy import deepcopy
 from square import Square as Sqr
 from game import Game
-from copy import deepcopy
-           
-
+         
 class DepthFirstSearch():
-    visited = set()
-    queue = []
 
-    def search(self, game) -> Game:
-        self.queue.append(game)
+    def __init__(self, game):
+        self.game = game
+        self.closed = set()
+        self.open = []
 
-        while self.queue:
-            current = self.queue.pop()
-            if current not in self.visited:
-                self.visited.add(current)
+
+    def search(self):
+        self.open.append(self.game)
+
+        while self.open:
+            current = self.open.pop()
+            if current not in self.closed:
+                self.closed.add(current)
                 if current.isGameWon():
-                    return current
+                    self.game = current
+                    break
                 if current.isBoardStateLegit():
-                    self.queue.extend(self.successors(current))
-        return game
+                    self.open.extend(self.successors(current))
         
     
     def successors(self, game):
@@ -28,7 +30,7 @@ class DepthFirstSearch():
             for columns in range(7):
                 if game.board[rows][columns] == Sqr.EMPTY:
                     next = deepcopy(game)
-                    next.click(1, rows, columns)
+                    next.placeLight(rows, columns)
                     nexts.append(next)
         return nexts
 

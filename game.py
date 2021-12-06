@@ -1,21 +1,8 @@
-#!/usr/bin/env python3
 from square import Square as Sqr
 from getLevel import getLevel
-import logging, sys
 
 
 class Game:
-    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-
-    def __init__(self, lvlId):
-        self.board = getLevel(id= str(lvlId))
-
-    def __hash__(self):
-        return hash(str(self.board))
-
-    def __eq__(self, other):
-        if not isinstance(other, type(self)): return NotImplemented
-        return self.board == other.board
 
     __changeIfLit = {
         Sqr.EMPTY : Sqr.LIT,
@@ -57,33 +44,41 @@ class Game:
         Sqr.BADTHREE : Sqr.BADTHREE,
         Sqr.FOUR : Sqr.BADFOUR,
         Sqr.BADFOUR : Sqr.BADFOUR,
-        Sqr.BLOCK : Sqr.BLOCK
-    }
-      
-    def click(self, btn, row, column):
-        #print(f"click [{row}][{column}] with {btn}")
-        btn = int(btn)
+        Sqr.BLOCK : Sqr.BLOCK}
+
+    def __init__(self, lvlId):
+        self.board = getLevel(lvlId)
+        self.size = len(self.board[0])
+
+    def __hash__(self):
+        return hash(str(self.board))
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)): return NotImplemented
+        return self.board == other.board
+    
+    def placeLight(self, row, column):
+        row = int(row)
+        column = int(column)
+    
+        if self.board[row][column] in [Sqr.EMPTY, Sqr.LIT]:
+            self.__putLight(row, column)
+        elif self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
+            self.__removeLight(row, column)
+        
+        self.__refreshGrid()
+
+    def placeNoLight(self, row, column):
         row = int(row)
         column = int(column)
 
-        if btn == 1:
-            #left click
-            if self.board[row][column] in [Sqr.EMPTY, Sqr.LIT]:
-                self.__placeLight(row, column)
-            elif self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
-                self.__removeLight(row, column)
-        elif btn == 3:
-            #right click
-            if self.board[row][column] in [Sqr.EMPTY, Sqr.LIT]:
-                self.__placeNoLight(row, column)
-            elif self.board[row][column] in [Sqr.NOLIGHT, Sqr.LITNOLIGHT]:
-                self.__removeNoLight(row, column)
-        else:
-            pass
-        self.__refreshGrid()
+        if self.board[row][column] in [Sqr.EMPTY, Sqr.LIT]:
+            self.__putNoLight(row, column)
+        elif self.board[row][column] in [Sqr.NOLIGHT, Sqr.LITNOLIGHT]:
+            self.__removeNoLight(row, column)
         
     
-    def __placeLight(self, row, column):
+    def __putLight(self, row, column):
         row = int(row)
         column = int(column)
         self.board[row][column] = Sqr.LIGHT
@@ -95,7 +90,7 @@ class Game:
         self.board[row][column] = Sqr.EMPTY
     
 
-    def __placeNoLight(self, row, column):
+    def __putNoLight(self, row, column):
         row = int(row)
         column = int(column)
         if self.__isLocationLit(row, column):
@@ -121,7 +116,7 @@ class Game:
         baseColumn = column
         
         row -= 1
-        while(0<=row<=6):
+        while(0 <= row < self.size):
             if self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
                 return True
             elif self.__isLocationStopsLight(row, column):
@@ -130,7 +125,7 @@ class Game:
             
         row = baseRow
         row += 1
-        while(0<=row<=6):
+        while(0 <= row < self.size):
             if self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
                 return True
             elif self.__isLocationStopsLight(row, column):
@@ -139,7 +134,7 @@ class Game:
             
         row = baseRow
         column -= 1
-        while(0<=column<=6):
+        while(0 <= column < self.size):
             if self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
                 return True
             elif self.__isLocationStopsLight(row, column):
@@ -148,7 +143,7 @@ class Game:
         
         column = baseColumn
         column += 1
-        while(0<=column<=6):
+        while(0 <= column < self.size):
             if self.board[row][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
                 return True
             elif self.__isLocationStopsLight(row, column):
@@ -177,7 +172,6 @@ class Game:
     
 
     def __canSatisfy(self, row, column):
-        #logging.debug(f'_canSatisfy({row}, {column})')
         if self.board[row][column] in [Sqr.ZERO, Sqr.BADZERO]:
             if self.__numOfLightsAround(row, column) == 0:
                 return True
@@ -218,52 +212,52 @@ class Game:
         return False
         
         
-    def __numOfLightsAround(self, row, column):
+    def numOfLightsAround(self, row, column):
         lights = 0
         
         if not row==0 and self.board[row-1][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
             lights += 1
 
-        if not row==6 and self.board[row+1][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
+        if not row==self.size-1 and self.board[row+1][column] in [Sqr.LIGHT, Sqr.BADLIGHT]:
             lights += 1
 
         if not column==0 and self.board[row][column-1] in [Sqr.LIGHT, Sqr.BADLIGHT]:
             lights += 1
 
-        if not column==6 and self.board[row][column+1] in [Sqr.LIGHT, Sqr.BADLIGHT]:
+        if not column==self.size-1 and self.board[row][column+1] in [Sqr.LIGHT, Sqr.BADLIGHT]:
             lights += 1
         
         return lights
         
     
-    def __numOfEmptyAround(self, row, column):
+    def numOfEmptyAround(self, row, column):
         emptys = 0
         
         if not row==0 and self.board[row-1][column] == Sqr.EMPTY:
             emptys += 1
 
-        if not row==6 and self.board[row+1][column] == Sqr.EMPTY:
+        if not row==self.size-1 and self.board[row+1][column] == Sqr.EMPTY:
             emptys += 1
 
         if not column==0 and self.board[row][column-1] == Sqr.EMPTY:
             emptys += 1
 
-        if not column==6 and self.board[row][column+1] == Sqr.EMPTY:
+        if not column==self.size-1 and self.board[row][column+1] == Sqr.EMPTY:
             emptys += 1
         
         return emptys
 
 
     def __refreshGrid(self):
-        for rows in range(7):
-            for columns in range(7):
+        for rows in range(self.size):
+            for columns in range(self.size):
                 if self.__isLocationChangedByLight(rows, columns):
                     if self.__isLocationLit(rows, columns):
                         self.board[rows][columns] = self.__changeIfLit[self.board[rows][columns]]
                     else:
                         self.board[rows][columns] = self.__changeIfNotLit[self.board[rows][columns]]
-        for rows in range(7):
-            for columns in range(7):
+        for rows in range(self.size):
+            for columns in range(self.size):
                 if self.__isLocationStopsLight(rows, columns):
                     if self.__canSatisfy(rows, columns):
                         self.board[rows][columns] = self.__changeIfCanSatisfy[self.board[rows][columns]]
@@ -272,8 +266,8 @@ class Game:
 
 
     def isGameWon(self):
-        for rows in range(7):
-            for columns in range(7):
+        for rows in range(self.size):
+            for columns in range(self.size):
                 if self.board[rows][columns] in [
                     Sqr.EMPTY, Sqr.NOLIGHT, Sqr.BADLIGHT, Sqr.BADZERO, Sqr.BADONE, Sqr.BADTWO, Sqr.BADTHREE, Sqr.BADFOUR
                 ]:
@@ -281,8 +275,8 @@ class Game:
         return True
 
     def isBoardStateLegit(self):
-        for rows in range(7):
-            for columns in range(7):
+        for rows in range(self.size):
+            for columns in range(self.size):
                 if self.board[rows][columns] in [
                     Sqr.BADLIGHT, Sqr.BADZERO, Sqr.BADONE, Sqr.BADTWO, Sqr.BADTHREE, Sqr.BADFOUR
                 ]:
