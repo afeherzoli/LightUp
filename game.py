@@ -173,39 +173,39 @@ class Game:
 
     def __canSatisfy(self, row, column):
         if self.board[row][column] in [Sqr.ZERO, Sqr.BADZERO]:
-            if self.__numOfLightsAround(row, column) == 0:
+            if self.numOfLightsAround(row, column) == 0:
                 return True
-            elif self.__numOfLightsAround(row, column) > 0:
+            elif self.numOfLightsAround(row, column) > 0:
                 return False
-            elif self.__numOfLightsAround(row, column) + self.__numOfEmptyAround(row, column) >= 0:
+            elif self.numOfLightsAround(row, column) + self.numOfEmptyAround(row, column) >= 0:
                 return True
         elif self.board[row][column] in [Sqr.ONE, Sqr.BADONE]:
-            if self.__numOfLightsAround(row, column) == 1:
+            if self.numOfLightsAround(row, column) == 1:
                 return True
-            elif self.__numOfLightsAround(row, column) > 1:
+            elif self.numOfLightsAround(row, column) > 1:
                 return False
-            elif self.__numOfLightsAround(row, column) + self.__numOfEmptyAround(row, column) >= 1:
+            elif self.numOfLightsAround(row, column) + self.numOfEmptyAround(row, column) >= 1:
                 return True
         elif self.board[row][column] in [Sqr.TWO, Sqr.BADTWO]:
-            if self.__numOfLightsAround(row, column) == 2:
+            if self.numOfLightsAround(row, column) == 2:
                 return True
-            elif self.__numOfLightsAround(row, column) > 2:
+            elif self.numOfLightsAround(row, column) > 2:
                 return False
-            elif self.__numOfLightsAround(row, column) + self.__numOfEmptyAround(row, column) >= 2:
+            elif self.numOfLightsAround(row, column) + self.numOfEmptyAround(row, column) >= 2:
                 return True
         elif self.board[row][column] in [Sqr.THREE, Sqr.BADTHREE]:
-            if self.__numOfLightsAround(row, column) == 3:
+            if self.numOfLightsAround(row, column) == 3:
                 return True
-            elif self.__numOfLightsAround(row, column) > 3:
+            elif self.numOfLightsAround(row, column) > 3:
                 return False
-            elif self.__numOfLightsAround(row, column) + self.__numOfEmptyAround(row, column) >= 3:
+            elif self.numOfLightsAround(row, column) + self.numOfEmptyAround(row, column) >= 3:
                 return True
         elif self.board[row][column] in [Sqr.FOUR, Sqr.BADFOUR]:
-            if self.__numOfLightsAround(row, column) == 4:
+            if self.numOfLightsAround(row, column) == 4:
                 return True
-            elif self.__numOfLightsAround(row, column) > 4:
+            elif self.numOfLightsAround(row, column) > 4:
                 return False
-            elif self.__numOfLightsAround(row, column) + self.__numOfEmptyAround(row, column) >= 4:
+            elif self.numOfLightsAround(row, column) + self.numOfEmptyAround(row, column) >= 4:
                 return True
         elif self.board[row][column] in [Sqr.BLOCK]:
             return True
