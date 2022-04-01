@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from enum import Enum, auto
 
-class Square(Enum):
+class Tile(Enum):
     EMPTY = auto()
     BLOCK = auto()
     LIGHT = auto()
@@ -21,7 +21,7 @@ class Square(Enum):
     BADFOUR = auto()
 
 def main():
-    print(list(Square))    
+    print(list(Tile))    
     
 
 ###################################################

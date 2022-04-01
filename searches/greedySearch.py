@@ -1,7 +1,7 @@
 from copy import deepcopy
 from operator import itemgetter
 from tkinter.constants import FALSE
-from square import Square as Sqr
+from tile import Tile as Tile
 from game import Game
 from gui import Gui
 from searches.heuristics.simpleHeuristic import simpleHeuristic
@@ -22,12 +22,12 @@ class GreedySearch():
         while self.open:
             current, h = self.open.pop(0)
             #print(h2)
-            #gui = Gui(current)
+            #gui = Gui(current)FDSADSA,,
             #gui.start()
 
             if current not in self.closed:
                 self.closed.add(current)
-                if current.isGameWon():
+                if current.is_game_won():
                     return current
                 self.open.extend(self.successors(current))
                 self.open.sort(key=itemgetter(1))
@@ -42,10 +42,10 @@ class GreedySearch():
         nexts = []
         for rows in range(game.size):
             for columns in range(game.size):
-                if game.board[rows][columns] == Sqr.EMPTY:
+                if game.board[rows][columns] == Tile.EMPTY:
                     next = deepcopy(game)
-                    next.placeLight(rows, columns)
-                    if next.isBoardStateLegit():
+                    next.place_light(rows, columns)
+                    if next.is_board_state_legit():
                         h = simpleHeuristic(next)
                         nexts.append((next, h))
         return nexts

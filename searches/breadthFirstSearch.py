@@ -1,5 +1,5 @@
 from copy import deepcopy
-from square import Square as Sqr
+from tile import Tile as Tile
 from game import Game
            
 class BreadthFirstSearch():    
@@ -27,7 +27,7 @@ class BreadthFirstSearch():
         nexts = []
         for rows in range(7):
             for columns in range(7):
-                if game.board[rows][columns] == Sqr.EMPTY:
+                if game.board[rows][columns] == Tile.EMPTY:
                     next = deepcopy(game)
                     next.placeLight(rows, columns)
                     nexts.append(next)

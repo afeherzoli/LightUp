@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from copy import deepcopy
-from square import Square as Sqr
+from tile import Tile as Tile
 from game import Game
 from gui import Gui
 
@@ -42,7 +42,7 @@ class DepthLimitedSearch():
         nexts = []
         for rows in range(7):
             for columns in range(7):
-                if game.board[rows][columns] == Sqr.EMPTY:
+                if game.board[rows][columns] == Tile.EMPTY:
                     next = deepcopy(game)
                     next.click(1, rows, columns)
                     nexts.append(next)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from square import Square as Sqr
+from tile import Tile as Tile
 from game import Game
 from gui import Gui
 from operator import itemgetter
@@ -8,16 +8,16 @@ from copy import deepcopy
 
 class AStarSearch():
     __sqrToInt = {
-        Sqr.ZERO : 0,
-        Sqr.ONE : 1,
-        Sqr.TWO  : 2,
-        Sqr.THREE : 3,
-        Sqr.FOUR : 4,
-        Sqr.BADZERO : 0,
-        Sqr.BADONE : 1,
-        Sqr.BADTWO  : 2,
-        Sqr.BADTHREE : 3,
-        Sqr.BADFOUR : 4,
+        Tile.ZERO : 0,
+        Tile.ONE : 1,
+        Tile.TWO  : 2,
+        Tile.THREE : 3,
+        Tile.FOUR : 4,
+        Tile.BADZERO : 0,
+        Tile.BADONE : 1,
+        Tile.BADTWO  : 2,
+        Tile.BADTHREE : 3,
+        Tile.BADFOUR : 4,
     }
 
     def __init__(self, game) -> None:
@@ -47,7 +47,7 @@ class AStarSearch():
         emptys = 0
         for rows in range(7):
             for columns in range(7):
-                if game.board[rows][columns] in [Sqr.ZERO, Sqr.ONE, Sqr.TWO, Sqr.THREE, Sqr.FOUR]:
+                if game.board[rows][columns] in [Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR]:
                     numbers += self.__sqrToInt[game.board[rows][columns]]
                     satisfaction += self.__numOfLightsAround(game, rows, columns)
         return numbers - satisfaction
@@ -55,13 +55,13 @@ class AStarSearch():
     def __numOfLightsAround(self, game, row, column):
         lights = 0
         
-        if not row==0 and game.board[row-1][column] == Sqr.LIGHT:
+        if not row==0 and game.board[row-1][column] == Tile.LIGHT:
             lights += 1
-        if not row==6 and game.board[row+1][column] == Sqr.LIGHT:
+        if not row==6 and game.board[row+1][column] == Tile.LIGHT:
             lights += 1
-        if not column==0 and game.board[row][column-1] == Sqr.LIGHT:
+        if not column==0 and game.board[row][column-1] == Tile.LIGHT:
             lights += 1
-        if not column==6 and game.board[row][column+1] == Sqr.LIGHT:
+        if not column==6 and game.board[row][column+1] == Tile.LIGHT:
             lights += 1
         
         return lights
@@ -71,7 +71,7 @@ class AStarSearch():
         nexts = []
         for rows in range(7):
             for columns in range(7):
-                if game.board[rows][columns] == Sqr.EMPTY:
+                if game.board[rows][columns] == Tile.EMPTY:
                     next = deepcopy(game)
                     next.click(1, rows, columns)
                     if next.isBoardStateLegit():

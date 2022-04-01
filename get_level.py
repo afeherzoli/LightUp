@@ -1,16 +1,16 @@
 import xml.etree.ElementTree as ET
-from square import Square as Sqr
+from tile import Tile as Tile
 
 
 def getLevel(id):
     lvlId = str(id)    
     codeToSqr = {
-        'B' : Sqr.BLOCK,
-        '0' : Sqr.ZERO,
-        '1' : Sqr.ONE,
-        '2' : Sqr.TWO,
-        '3' : Sqr.THREE,
-        '4' : Sqr.FOUR}
+        'B' : Tile.BLOCK,
+        '0' : Tile.ZERO,
+        '1' : Tile.ONE,
+        '2' : Tile.TWO,
+        '3' : Tile.THREE,
+        '4' : Tile.FOUR}
 
     tree = ET.parse('data/finalLevels.xml')
     root = tree.getroot()
@@ -22,7 +22,7 @@ def getLevel(id):
         if c in ['B', '0', '1', '2', '3', '4']:
             preLevel.append(codeToSqr[c])
         elif ord(c) in range(ord('a'), ord('z')+1):
-            preLevel += ([Sqr.EMPTY] * (ord(c)-ord('a')+1))
+            preLevel += ([Tile.EMPTY] * (ord(c)-ord('a')+1))
 
     myLevel = [[''] * SIZE  for i in range(SIZE)]
     for row in range(SIZE):

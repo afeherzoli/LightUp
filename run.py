@@ -10,11 +10,11 @@ from searches.aStarSearch import AStarSearch
 
 
 def main():
-    #for i in range(0, 60):
+    for i in range(15, 28):
         
         #f = open("data/breadth_results.txt", "a")
         
-        i = 36 # game id, 0-59
+        #i = 36 # game id, 0-59
         game = Game(i)
 
         print(f"Solving game with id:{i}")
