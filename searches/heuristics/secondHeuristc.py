@@ -15,7 +15,7 @@ __sqrToInt = {
     }
 
 def secondHeuristic(game):
-    heurOfSqrs = [[0] * game.size for i in range(game.size)]
+    heurOfTiles = [[0] * game.size for i in range(game.size)]
 
     #first fill the number adjacents
     for rows in range(game.size):
@@ -38,7 +38,7 @@ def calculate(game, row, column):
         
     row = baseRow
     row += 1
-    while(row < self.game.size):
+    while(row < game.size):
         if game.board[row][column] == Tile.EMPTY:
             horizontal += 1
         row += 1
@@ -52,7 +52,7 @@ def calculate(game, row, column):
     
     column = baseColumn
     column += 1
-    while(column < self.game.size):
+    while(column < game.size):
         if game.board[row][column] == Tile.EMPTY:
             vertical += 1
         column += 1

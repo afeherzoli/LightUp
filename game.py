@@ -187,6 +187,8 @@ class Game:
 
     # Returns the number of emptys around a given positon, used for heuristic and board legitness
     def num_of_emptys_around(self, row, column):
+        return len(self.get_emptys_around(row, column))
+        """
         empty_tiles = 0
 
         if row != 0 and self.board[row-1][column] == Tile.EMPTY:
@@ -202,6 +204,24 @@ class Game:
             empty_tiles += 1
 
         return empty_tiles
+        """
+
+    def get_emptys_around(self, row, column):
+        emptys_around = []
+
+        if row != 0 and self.board[row-1][column] == Tile.EMPTY:
+            emptys_around.append((row-1, column))
+
+        if row != self.size-1 and self.board[row+1][column] == Tile.EMPTY:
+            emptys_around.append((row+1, column))
+
+        if column != 0 and self.board[row][column-1] == Tile.EMPTY:
+            emptys_around.append((row, column-1))
+
+        if column != self.size-1 and self.board[row][column+1] == Tile.EMPTY:
+            emptys_around.append((row, column+1))
+
+        return emptys_around
 
     # Refreshes grid, used after changes to update the board
     # row and column arguments states the place of change

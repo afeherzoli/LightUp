@@ -86,29 +86,29 @@ class Gui():
 
 
     def _initialzie_board(self):
-        for rows in range(self.game.size):
-            for columns in range(self.game.size):
+        for row in range(self.game.size):
+            for column in range(self.game.size):
                 lbl = Label(self.root, height=2, width=4, fg="black", bg="gray")
-                lbl.grid(row=rows, column=columns, padx=(1, 1), pady=(1,1))
-                lbl['text'] = self._get_symbol_at(rows, columns)
-                lbl['bg'] = self._get_bg_at(rows, columns)
-                lbl['fg'] = self._get_fg_at(rows, columns)
-                if self.game.board[rows][columns] not in [
+                lbl.grid(row=row, column=column, padx=(1, 1), pady=(1,1))
+                lbl['text'] = self._get_symbol_at(row, column)
+                lbl['bg'] = self._get_bg_at(row, column)
+                lbl['fg'] = self._get_fg_at(row, column)
+                if self.game.board[row][column] not in [
                     Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR, Tile.BLOCK,
                     Tile.BADZERO, Tile.BADONE, Tile.BADTWO, Tile.BADTHREE, Tile.BADFOUR]:
-                    lbl.bind("<Button-1>", lambda e, x=rows, y=columns: self.button_click(1, x, y))
-                    lbl.bind("<Button-3>", lambda e, x=rows, y=columns: self.button_click(3, x, y))
-        if self.is_game_already_won==False and self.game.is_game_won():
+                    lbl.bind("<Button-1>", lambda e, x=row, y=column: self.button_click(1, x, y))
+                    lbl.bind("<Button-3>", lambda e, x=row, y=column: self.button_click(3, x, y))
+        if self.game.is_game_won() and self.is_game_already_won==False:
             self.is_game_already_won = True
                 
     
     def _refresh_board(self):
-        for rows in range(self.game.size):
-            for columns in range(self.game.size):
-                widget = self.root.grid_slaves(row=rows, column=columns)[0]
-                widget['text'] = self._get_symbol_at(rows, columns)
-                widget['bg'] = self._get_bg_at(rows, columns)
-                widget['fg'] = self._get_fg_at(rows, columns)
+        for row in range(self.game.size):
+            for column in range(self.game.size):
+                widget = self.root.grid_slaves(row=row, column=column)[0]
+                widget['text'] = self._get_symbol_at(row, column)
+                widget['bg'] = self._get_bg_at(row, column)
+                widget['fg'] = self._get_fg_at(row, column)
 
 
     def _get_symbol_at(self, row, column):
@@ -136,7 +136,7 @@ class Gui():
 
 
 def main():
-    game = Game(23)
+    game = Game(30)
     gui = Gui(game)
     gui.start()
         

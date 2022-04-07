@@ -4,7 +4,7 @@ from tkinter.constants import FALSE
 from tile import Tile as Tile
 from game import Game
 from gui import Gui
-from searches.heuristics.simpleHeuristic import simpleHeuristic
+from searches.heuristics.simpleHeuristic import simple_heuristic
 
            
 
@@ -17,7 +17,7 @@ class GreedySearch():
 
 
     def search(self):
-        self.open.append((self.game, simpleHeuristic(self.game)))
+        self.open.append((self.game, simple_heuristic(self.game)))
 
         while self.open:
             current, h = self.open.pop(0)
@@ -46,7 +46,7 @@ class GreedySearch():
                     next = deepcopy(game)
                     next.place_light(rows, columns)
                     if next.is_board_state_legit():
-                        h = simpleHeuristic(next)
+                        h = simple_heuristic(next)
                         nexts.append((next, h))
         return nexts
 

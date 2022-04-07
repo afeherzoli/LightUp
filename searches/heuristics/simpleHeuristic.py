@@ -1,6 +1,6 @@
 from tile import Tile as Tile
 
-__sqrToInt = {
+_tile_to_int = {
         Tile.ZERO : 0,
         Tile.ONE : 1,
         Tile.TWO  : 2,
@@ -14,18 +14,18 @@ __sqrToInt = {
     }
 
 
-def simpleHeuristic(game):
+def simple_heuristic(game):
         # sum of numers - sum of already satisfied numbers
         numbers = 0
         satisfaction = 0
         for rows in range(game.size):
             for columns in range(game.size):
                 if game.board[rows][columns] in [Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR]:
-                    numbers += __sqrToInt[game.board[rows][columns]]
-                    satisfaction += __numOfLightsAround(game, rows, columns)
+                    numbers += _tile_to_int[game.board[rows][columns]]
+                    satisfaction += _num_of_lights_around(game, rows, columns)
         return numbers - satisfaction
 
-def __numOfLightsAround(game, row, column):
+def _num_of_lights_around(game, row, column):
         lights = 0
         
         if not row==0 and game.board[row-1][column] == Tile.LIGHT:
