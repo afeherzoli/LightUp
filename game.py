@@ -7,7 +7,7 @@ from itertools import product
 class Game:
 
     # Describe the state change if a tile lights up
-    __change_if_lit = {
+    _change_if_lit = {
         Tile.EMPTY: Tile.LIT,
         Tile.LIGHT: Tile.BADLIGHT,
         Tile.BADLIGHT: Tile.BADLIGHT,
@@ -16,7 +16,7 @@ class Game:
         Tile.LITNOLIGHT: Tile.LITNOLIGHT}
     
     # Describe the state change if a tile is no longer lit
-    __change_if_not_lit = {
+    _change_if_not_lit = {
         Tile.EMPTY: Tile.EMPTY,
         Tile.LIGHT: Tile.LIGHT,
         Tile.BADLIGHT: Tile.LIGHT,
@@ -25,7 +25,7 @@ class Game:
         Tile.LITNOLIGHT: Tile.NOLIGHT}
     
     # Describe the state change if numbered tile is satisfiable
-    __change_if_can_satisfy = {
+    _change_if_can_satisfy = {
         Tile.ZERO: Tile.ZERO,
         Tile.BADZERO: Tile.ZERO,
         Tile.ONE: Tile.ONE,
@@ -39,7 +39,7 @@ class Game:
         Tile.BLOCK: Tile.BLOCK}
     
     # Describe the state change if numbered tile is no longer satisfiable
-    __change_if_can_not_satisfy = {
+    _change_if_can_not_satisfy = {
         Tile.ZERO: Tile.BADZERO,
         Tile.BADZERO: Tile.BADZERO,
         Tile.ONE: Tile.BADONE,
@@ -72,10 +72,10 @@ class Game:
         match self.board[row][column]: 
             case Tile.EMPTY | Tile.LIT:
                 self.board[row][column] = Tile.LIGHT
-                self.__refresh_grid(row, column)
+                self._refresh_grid(row, column)
             case Tile.LIGHT | Tile.BADLIGHT:
                 self.board[row][column] = Tile.EMPTY
-                self.__refresh_grid(row, column)
+                self._refresh_grid(row, column)
 
     # Places a no lightsource indicator in the given position
     def place_no_light(self, row, column):
@@ -93,7 +93,7 @@ class Game:
                 self.board[row][column] = Tile.LIT
 
     # Returns whether a tile is lit or not
-    def __is_tile_lit(self, row, column):
+    def _is_tile_lit(self, row, column):
         base_row = row
         base_column = column
 
@@ -101,7 +101,7 @@ class Game:
         while(0 <= row < self.size):
             if self.board[row][column] in [Tile.LIGHT, Tile.BADLIGHT]:
                 return True
-            elif self.__is_tile_solid(row, column):
+            elif self._is_tile_solid(row, column):
                 break
             row -= 1
 
@@ -110,7 +110,7 @@ class Game:
         while(0 <= row < self.size):
             if self.board[row][column] in [Tile.LIGHT, Tile.BADLIGHT]:
                 return True
-            elif self.__is_tile_solid(row, column):
+            elif self._is_tile_solid(row, column):
                 break
             row += 1
 
@@ -119,7 +119,7 @@ class Game:
         while(0 <= column < self.size):
             if self.board[row][column] in [Tile.LIGHT, Tile.BADLIGHT]:
                 return True
-            elif self.__is_tile_solid(row, column):
+            elif self._is_tile_solid(row, column):
                 break
             column -= 1
 
@@ -128,14 +128,14 @@ class Game:
         while(0 <= column < self.size):
             if self.board[row][column] in [Tile.LIGHT, Tile.BADLIGHT]:
                 return True
-            elif self.__is_tile_solid(row, column):
+            elif self._is_tile_solid(row, column):
                 break
             column += 1
 
         return False
 
     # Returns whether a tile stops light or not
-    def __is_tile_solid(self, row, column):
+    def _is_tile_solid(self, row, column):
         if self.board[row][column] in [
             Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR, Tile.BLOCK,
             Tile.BADZERO, Tile.BADONE, Tile.BADTWO, Tile.BADTHREE, Tile.BADFOUR
@@ -145,7 +145,7 @@ class Game:
             return False
     
     # Returns whether a numbered tile can still be satisfied
-    def __can_satisfy(self, row, column):
+    def _can_satisfy(self, row, column):
         match self.board[row][column]:
             case Tile.ZERO | Tile.BADZERO:
                 num_at_positon = 0
@@ -205,19 +205,19 @@ class Game:
 
     # Refreshes grid, used after changes to update the board
     # row and column arguments states the place of change
-    def __refresh_grid(self, row, column):
+    def _refresh_grid(self, row, column):
         for i in range(self.size):
-            if not self.__is_tile_solid(i, column):
-                if self.__is_tile_lit(i, column):
-                    self.board[i][column] = self.__change_if_lit[self.board[i][column]]
+            if not self._is_tile_solid(i, column):
+                if self._is_tile_lit(i, column):
+                    self.board[i][column] = self._change_if_lit[self.board[i][column]]
                 else:
-                    self.board[i][column] = self.__change_if_not_lit[self.board[i][column]]
+                    self.board[i][column] = self._change_if_not_lit[self.board[i][column]]
 
-            if not self.__is_tile_solid(row, i):
-                if self.__is_tile_lit(row, i):
-                    self.board[row][i] = self.__change_if_lit[self.board[row][i]]
+            if not self._is_tile_solid(row, i):
+                if self._is_tile_lit(row, i):
+                    self.board[row][i] = self._change_if_lit[self.board[row][i]]
                 else:
-                    self.board[row][i] = self.__change_if_not_lit[self.board[row][i]]
+                    self.board[row][i] = self._change_if_not_lit[self.board[row][i]]
 
         match row:
             case 0:
@@ -242,18 +242,18 @@ class Game:
                 column_end = row + 1
 
         for row, column in product(range(row_start, row_end), range(self.size)):
-            if self.__is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
-                if self.__can_satisfy(row, column):
-                    self.board[row][column] = self.__change_if_can_satisfy[self.board[row][column]]
+            if self._is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
+                if self._can_satisfy(row, column):
+                    self.board[row][column] = self._change_if_can_satisfy[self.board[row][column]]
                 else:
-                    self.board[row][column] = self.__change_if_can_not_satisfy[self.board[row][column]]
+                    self.board[row][column] = self._change_if_can_not_satisfy[self.board[row][column]]
 
         for row, column in product(range(self.size), range(column_start, column_end)):
-            if self.__is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
-                if self.__can_satisfy(row, column):
-                    self.board[row][column] = self.__change_if_can_satisfy[self.board[row][column]]
+            if self._is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
+                if self._can_satisfy(row, column):
+                    self.board[row][column] = self._change_if_can_satisfy[self.board[row][column]]
                 else:
-                    self.board[row][column] = self.__change_if_can_not_satisfy[self.board[row][column]]
+                    self.board[row][column] = self._change_if_can_not_satisfy[self.board[row][column]]
 
     # Returns whether the winning conditions are met
     def is_game_won(self):

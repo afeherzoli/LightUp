@@ -7,7 +7,7 @@ from tile import Tile as Tile
 
 class Gui():
 
-    __symbols = {
+    _symbols = {
         Tile.EMPTY : '',
         Tile.BLOCK : ' ',
         Tile.LIGHT : 'O',
@@ -26,7 +26,7 @@ class Gui():
         Tile.FOUR : '4',
         Tile.BADFOUR : '4'}
 
-    __bgColors = {
+    _bgColors = {
         Tile.EMPTY : 'snow3',
         Tile.BLOCK : 'black',
         Tile.LIGHT : 'yellow',
@@ -45,7 +45,7 @@ class Gui():
         Tile.FOUR : 'black',
         Tile.BADFOUR : 'black'}
 
-    __fgColors = {
+    _fgColors = {
         Tile.EMPTY : 'white',
         Tile.BLOCK : 'black',
         Tile.LIGHT : 'black',
@@ -78,21 +78,21 @@ class Gui():
         my_font = nametofont("TkDefaultFont")
         my_font.configure(weight='bold')
         self.root.option_add("*Font", my_font)
-        self.__initialzie_board()
+        self._initialzie_board()
 
 
     def start(self):
         self.root.mainloop()
 
 
-    def __initialzie_board(self):
+    def _initialzie_board(self):
         for rows in range(self.game.size):
             for columns in range(self.game.size):
                 lbl = Label(self.root, height=2, width=4, fg="black", bg="gray")
                 lbl.grid(row=rows, column=columns, padx=(1, 1), pady=(1,1))
-                lbl['text'] = self.__get_symbol_at(rows, columns)
-                lbl['bg'] = self.__get_bg_at(rows, columns)
-                lbl['fg'] = self.__get_fg_at(rows, columns)
+                lbl['text'] = self._get_symbol_at(rows, columns)
+                lbl['bg'] = self._get_bg_at(rows, columns)
+                lbl['fg'] = self._get_fg_at(rows, columns)
                 if self.game.board[rows][columns] not in [
                     Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR, Tile.BLOCK,
                     Tile.BADZERO, Tile.BADONE, Tile.BADTWO, Tile.BADTHREE, Tile.BADFOUR]:
@@ -102,25 +102,25 @@ class Gui():
             self.is_game_already_won = True
                 
     
-    def __refresh_board(self):
+    def _refresh_board(self):
         for rows in range(self.game.size):
             for columns in range(self.game.size):
                 widget = self.root.grid_slaves(row=rows, column=columns)[0]
-                widget['text'] = self.__get_symbol_at(rows, columns)
-                widget['bg'] = self.__get_bg_at(rows, columns)
-                widget['fg'] = self.__get_fg_at(rows, columns)
+                widget['text'] = self._get_symbol_at(rows, columns)
+                widget['bg'] = self._get_bg_at(rows, columns)
+                widget['fg'] = self._get_fg_at(rows, columns)
 
 
-    def __get_symbol_at(self, row, column):
-        return self.__symbols[self.game.board[row][column]]
+    def _get_symbol_at(self, row, column):
+        return self._symbols[self.game.board[row][column]]
 
 
-    def __get_bg_at(self, row, column):
-        return self.__bgColors[self.game.board[row][column]]
+    def _get_bg_at(self, row, column):
+        return self._bgColors[self.game.board[row][column]]
 
 
-    def __get_fg_at(self, row, column):
-        return self.__fgColors[self.game.board[row][column]]
+    def _get_fg_at(self, row, column):
+        return self._fgColors[self.game.board[row][column]]
 
 
     def button_click(self, btn, row, column):
@@ -129,10 +129,10 @@ class Gui():
         elif btn == 3:
             self.game.place_no_light(row, column)
 
-        self.__refresh_board()
+        self._refresh_board()
         if self.is_game_already_won==False and self.game.is_game_won():
             self.is_game_already_won = True
-            messagebox.showinfo("","You won")
+            messagebox.showinfo("Congratulations!","You won!")
 
 
 def main():

@@ -4,7 +4,7 @@ from tile import Tile as Tile
 
 def getLevel(id):
     lvlId = str(id)    
-    codeToSqr = {
+    codeToTile = {
         'B' : Tile.BLOCK,
         '0' : Tile.ZERO,
         '1' : Tile.ONE,
@@ -20,7 +20,7 @@ def getLevel(id):
     preLevel = []
     for c in lvl.text:
         if c in ['B', '0', '1', '2', '3', '4']:
-            preLevel.append(codeToSqr[c])
+            preLevel.append(codeToTile[c])
         elif ord(c) in range(ord('a'), ord('z')+1):
             preLevel += ([Tile.EMPTY] * (ord(c)-ord('a')+1))
 
