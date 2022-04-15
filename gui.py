@@ -1,3 +1,5 @@
+
+from itertools import product
 from tkinter import *
 from tkinter import messagebox
 from tkinter.font import BOLD, Font, nametofont
@@ -97,12 +99,12 @@ class Gui():
                     Tile.ZERO, Tile.ONE, Tile.TWO, Tile.THREE, Tile.FOUR, Tile.BLOCK,
                     Tile.BADZERO, Tile.BADONE, Tile.BADTWO, Tile.BADTHREE, Tile.BADFOUR]:
                     lbl.bind("<Button-1>", lambda e, x=row, y=column: self.button_click(1, x, y))
-                    lbl.bind("<Button-3>", lambda e, x=row, y=column: self.button_click(3, x, y))
+                    lbl.bind("<Button-3>", lambda f, x=row, y=column: self.button_click(3, x, y))
         if self.game.is_game_won() and self.is_game_already_won==False:
             self.is_game_already_won = True
                 
     
-    def _refresh_board(self):
+    def _refresh_board(self, row, column):
         for row in range(self.game.size):
             for column in range(self.game.size):
                 widget = self.root.grid_slaves(row=row, column=column)[0]
@@ -129,7 +131,7 @@ class Gui():
         elif btn == 3:
             self.game.place_no_light(row, column)
 
-        self._refresh_board()
+        self._refresh_board(row, column)
         if self.is_game_already_won==False and self.game.is_game_won():
             self.is_game_already_won = True
             messagebox.showinfo("Congratulations!","You won!")

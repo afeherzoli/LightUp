@@ -15,7 +15,7 @@ def getLevel(id):
     tree = ET.parse('data/finalLevels.xml')
     root = tree.getroot()
     lvl = root.find(f'./level[@id="{lvlId}"]')
-    SIZE = int(lvl.attrib['size'])
+    size = int(lvl.attrib['size'])
     
     preLevel = []
     for c in lvl.text:
@@ -24,12 +24,12 @@ def getLevel(id):
         elif ord(c) in range(ord('a'), ord('z')+1):
             preLevel += ([Tile.EMPTY] * (ord(c)-ord('a')+1))
 
-    myLevel = [[''] * SIZE  for i in range(SIZE)]
-    for row in range(SIZE):
-        for col in range(SIZE):
-            myLevel[row][col] = preLevel[row*SIZE + col]
+    myLevel = [[''] * size  for i in range(size)]
+    for row in range(size):
+        for col in range(size):
+            myLevel[row][col] = preLevel[row*size + col]
 
-    return myLevel
+    return (myLevel, size)
 
 
 def main():

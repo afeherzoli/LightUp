@@ -53,8 +53,7 @@ class Game:
         Tile.BLOCK: Tile.BLOCK}
 
     def __init__(self, lvlId=1):
-        self.board = getLevel(lvlId)
-        self.size = len(self.board[0])
+        self.board, self.size = getLevel(lvlId)
 
     def __hash__(self):
         return hash(str(self.board))
@@ -188,23 +187,6 @@ class Game:
     # Returns the number of emptys around a given positon, used for heuristic and board legitness
     def num_of_emptys_around(self, row, column):
         return len(self.get_emptys_around(row, column))
-        """
-        empty_tiles = 0
-
-        if row != 0 and self.board[row-1][column] == Tile.EMPTY:
-            empty_tiles += 1
-
-        if row != self.size-1 and self.board[row+1][column] == Tile.EMPTY:
-            empty_tiles += 1
-
-        if column != 0 and self.board[row][column-1] == Tile.EMPTY:
-            empty_tiles += 1
-
-        if column != self.size-1 and self.board[row][column+1] == Tile.EMPTY:
-            empty_tiles += 1
-
-        return empty_tiles
-        """
 
     def get_emptys_around(self, row, column):
         emptys_around = []
@@ -226,6 +208,7 @@ class Game:
     # Refreshes grid, used after changes to update the board
     # row and column arguments states the place of change
     def _refresh_grid(self, row, column):
+        # Light ray going trough the grid horizontally and vertically
         for i in range(self.size):
             if not self._is_tile_solid(i, column):
                 if self._is_tile_lit(i, column):
@@ -239,41 +222,21 @@ class Game:
                 else:
                     self.board[row][i] = self._change_if_not_lit[self.board[row][i]]
 
-        match row:
-            case 0:
-                row_start = 0
-                row_end = 2
-            case self.size:
-                row_start = self.size - 1
-                row_end = self.size
-            case _:
-                row_start = row - 1
-                row_end = row + 1
-
-        match column:
-            case 0:
-                column_start = 0
-                column_end = 2
-            case self.size:
-                column_start = self.size - 1
-                column_end = self.size
-            case _:
-                column_start = row - 1
-                column_end = row + 1
-
-        for row, column in product(range(row_start, row_end), range(self.size)):
-            if self._is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
-                if self._can_satisfy(row, column):
-                    self.board[row][column] = self._change_if_can_satisfy[self.board[row][column]]
+        # Updates the 2-3 wide vertical line that is effected by the lightsource
+        for r, c in product(range(max(0, row-1), min(self.size, row+1)), range(self.size)):
+            if self._is_tile_solid(r, c) and self.board[r][c]!=Tile.BLOCK:
+                if self._can_satisfy(r, c):
+                    self.board[r][c] = self._change_if_can_satisfy[self.board[r][c]]
                 else:
-                    self.board[row][column] = self._change_if_can_not_satisfy[self.board[row][column]]
+                    self.board[r][c] = self._change_if_can_not_satisfy[self.board[r][c]]
 
-        for row, column in product(range(self.size), range(column_start, column_end)):
-            if self._is_tile_solid(row, column) and self.board[row][column]!=Tile.BLOCK:
-                if self._can_satisfy(row, column):
-                    self.board[row][column] = self._change_if_can_satisfy[self.board[row][column]]
+        # Same, just horizontally
+        for r, c in product(range(self.size), range(max(0, column-1), min(self.size, column+1))):
+            if self._is_tile_solid(r, c) and self.board[r][c]!=Tile.BLOCK:
+                if self._can_satisfy(r, c):
+                    self.board[r][c] = self._change_if_can_satisfy[self.board[r][c]]
                 else:
-                    self.board[row][column] = self._change_if_can_not_satisfy[self.board[row][column]]
+                    self.board[r][c] = self._change_if_can_not_satisfy[self.board[r][c]]
 
     # Returns whether the winning conditions are met
     def is_game_won(self):

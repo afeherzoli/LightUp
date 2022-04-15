@@ -4,7 +4,7 @@ from tkinter.constants import FALSE
 from tile import Tile as Tile
 from game import Game
 from gui import Gui
-from searches.heuristics.simpleHeuristic import simple_heuristic
+from searches.heuristics.simple_heuristic import simple_heuristic
 
            
 
@@ -22,7 +22,7 @@ class GreedySearch():
         while self.open:
             current, h = self.open.pop(0)
             #print(h2)
-            #gui = Gui(current)FDSADSA,,
+            #gui = Gui(current)
             #gui.start()
 
             if current not in self.closed:
